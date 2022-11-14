@@ -29,5 +29,6 @@
             "always"
         ],
         "eol-last": ["error", "always"]
-    }
+    },
+    "ignorePatterns": [".**/migrations/*.ts}"]
 }
