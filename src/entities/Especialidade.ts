@@ -1,10 +1,10 @@
 /* eslint-disable indent */
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AppBaseEntity } from './AppBaseEntity';
-import { Paciente } from './Paciente';
+import { Medico } from './Medico';
 
-@Entity('plano_saude')
-export class PlanoSaude extends AppBaseEntity {
+@Entity('especialidade')
+export class Especialidade extends AppBaseEntity {
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -12,6 +12,6 @@ export class PlanoSaude extends AppBaseEntity {
   @Column({ type: 'text' })
   descricao: string;
 
-  @OneToMany(() => Paciente, paciente => paciente.planoSaude)
-  pacientes: Paciente[];
+  @OneToMany(() => Medico, medico => medico.especialidade)
+  medicos: Medico[];
 }

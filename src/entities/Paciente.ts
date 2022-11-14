@@ -1,10 +1,11 @@
 /* eslint-disable indent */
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Pessoa } from './Pessoa';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Agendamento } from './Agendamento';
+import { PessoaFisica } from './PessoaFisica';
 import { PlanoSaude } from './PlanoSaude';
 
 @Entity('paciente')
-export class Paciente extends Pessoa {
+export class Paciente extends PessoaFisica {
 
   constructor() {
     super();
@@ -13,7 +14,10 @@ export class Paciente extends Pessoa {
   @Column()
   ativo: boolean;
 
-  @ManyToOne(() => PlanoSaude, planoSaude => planoSaude.paciente)
+  @ManyToOne(() => PlanoSaude, planoSaude => planoSaude.pacientes)
   @JoinColumn({ name: 'plano_saude_id' })
   planoSaude: PlanoSaude;
+
+  @OneToMany(() => Agendamento, agendamento => agendamento.paciente)
+  agendamentos: Agendamento[];
 }
