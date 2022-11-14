@@ -4,7 +4,8 @@
   "description": "API REST Marcação de Consultas Médicas",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node ./src/server.ts"
+    "dev": "nodemon --exec ts-node ./src/server.ts",
+    "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/migrations/default"
   },
   "author": "Ticiano-Filho",
   "license": "ISC",
