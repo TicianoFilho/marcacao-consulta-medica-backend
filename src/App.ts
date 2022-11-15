@@ -1,8 +1,7 @@
 import express, { Application } from 'express';
 import routes from './routes';
 
-class App {
-
+export default class App {
   private app: Application;
   
   constructor(){
@@ -24,5 +23,3 @@ class App {
     routes(this.app);
   }
 }
-
-export default App;
