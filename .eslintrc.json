@@ -28,7 +28,8 @@
             "error",
             "always"
         ],
-        "eol-last": ["error", "always"]
+        "eol-last": ["error", "always"],
+        "@typescript-eslint/no-explicit-any": "off"
     },
     "ignorePatterns": [".**/migrations/*.ts}"]
 }

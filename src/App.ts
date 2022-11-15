@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import routes from './routes';
 
 class App {
 
@@ -7,6 +8,7 @@ class App {
   constructor(){
     this.app = express();
     this.middlewares();
+    this.routes();
   }
 
   public initApp(): Application {
@@ -18,9 +20,9 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
   }
 
-  // private routes(): void {
-  //   this.app.use();
-  // }
+  private routes(): void {
+    routes(this.app);
+  }
 }
 
 export default App;
