@@ -13,6 +13,7 @@ export class EspecialidadeController {
     const { descricao } = req.body;
 
     try {
+
       if (!descricao) {
         return res.status(404).json({ message: 'O campo descricao não pode ser vazio.' });
       }
@@ -25,8 +26,11 @@ export class EspecialidadeController {
       });
       
     } catch (error: any) {
-      res.status(500).json({ message: 'Ocorreu algum erro no lado do servidor.', error: error.message });
-    }
 
+      res.status(500).json({ 
+        message: 'Ocorreu algum erro no lado do servidor.', 
+        error: error.message 
+      });
+    }
   }
 }
