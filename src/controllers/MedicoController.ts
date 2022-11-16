@@ -100,4 +100,29 @@ export class MedicoController {
       });
     }
   }
+
+  public async delete(req: Request, res: Response) {
+    const { medicoId } = req.params;
+
+    try {
+      const medico = await medicoRepository.findOneBy({ 
+        id: Number(medicoId)
+      });
+
+      if (!medico) {
+        return res.status(404).json({ 
+          message: `O médico de código ${ medicoId } não existe.` 
+        });
+      }
+
+      await medicoRepository.remove(medico);
+      return res.status(204).send();
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });  
+    }
+  }
 }
