@@ -14,7 +14,7 @@ export class Medico extends PessoaFisica {
   @Column()
   crm: string;
 
-  @ManyToMany(() => Especialidade, especialidade => especialidade.medicos)
+  @ManyToMany(() => Especialidade, especialidades => especialidades.medicos)
   especialidades: Especialidade[];
 
   @OneToMany(() => Agendamento, Agendamento => Agendamento.medico)
