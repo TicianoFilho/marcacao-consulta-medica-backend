@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, ManyToMany } from 'typeorm';
 import { Agendamento } from './Agendamento';
 import { Especialidade } from './Especialidade';
 import { PessoaFisica } from './PessoaFisica';
@@ -14,9 +14,8 @@ export class Medico extends PessoaFisica {
   @Column()
   crm: string;
 
-  @ManyToOne(() => Especialidade, especialidade => especialidade.medicos)
-  @JoinColumn({ name: 'especialidade_id' })
-  especialidade: Especialidade;
+  @ManyToMany(() => Especialidade, especialidade => especialidade.medicos)
+  especialidades: Especialidade[];
 
   @OneToMany(() => Agendamento, Agendamento => Agendamento.medico)
   agendamentos: Agendamento[];

@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn, JoinTable } from 'typeorm';
 import { AppBaseEntity } from './AppBaseEntity';
 import { Medico } from './Medico';
 
@@ -12,6 +12,17 @@ export class Especialidade extends AppBaseEntity {
   @Column({ type: 'text' })
   descricao: string;
 
-  @OneToMany(() => Medico, medico => medico.especialidade)
+  @ManyToMany(() => Medico, medico => medico.especialidades)
+  @JoinTable({
+    name: 'medico_especialidade',
+    joinColumn: {
+      name: 'medico_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'especialidade_id',
+      referencedColumnName: 'id',
+    },
+  })
   medicos: Medico[];
 }
