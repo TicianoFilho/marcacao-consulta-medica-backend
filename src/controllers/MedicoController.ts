@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { Medico } from '../entities/Medico';
 import { medicoRepository } from '../repositories/medicoRepository';
 import { especialidadeRepository } from '../repositories/especialidadeRepository';
-import { Especialidade } from '../entities/Especialidade';
 
 export class MedicoController {
 
@@ -34,26 +33,26 @@ export class MedicoController {
 
   public async create(req: Request, res: Response) {
     const { nome, cpf, endereco, telefone, email, crm, especialidadesId } = req.body;
-    const especialidadesIdArray: Especialidade[] = especialidadesId;
+    const especialidadesIdArray: number[] = especialidadesId;
 
     try {
-      
+
       const especialidades = await especialidadeRepository
         .createQueryBuilder('especialidade')
         .where('id in (:...ids)', { ids: especialidadesIdArray })
         .getMany();
 
       if (!especialidades) {
-        return res.status(404).json({ 
-          message: `A especialidade de código ${ especialidadesId } não existe.` 
+        return res.status(404).json({
+          message: `Especialidade de código ${especialidadesId} não existe.`
         });
       }
 
       const newMedico = medicoRepository.create({ nome, cpf, endereco, telefone, email, crm, especialidades });
 
       if (!newMedico) {
-        return res.status(404).json({ 
-          message: 'Faltando informações requeridas do médico.' 
+        return res.status(404).json({
+          message: 'Faltando informações requeridas do médico.'
         });
       }
 
@@ -66,6 +65,35 @@ export class MedicoController {
 
     } catch (error: any) {
 
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });
+    }
+  }
+
+  public async update(req: Request, res: Response) {
+    const { nome, cpf, endereco, telefone, email, crm, especialidadesId } = req.body;
+    // const especialidadesIdArray: number[] = especialidadesId;
+    const { medicoId } = req.params;
+
+    try {
+
+      // const especialidades = await especialidadeRepository
+      //   .createQueryBuilder('especialidade')
+      //   .where('id in (:...ids)', { ids: especialidadesIdArray })
+      //   .getMany();
+      
+      await medicoRepository.update(
+        Number(medicoId),
+        {
+          nome, cpf, endereco, telefone, email, crm, // TODO implement update to especialidades. Given error: "Cannot query across many-to-many for property especialidades".
+        }
+      );
+
+      return res.status(204).send();
+
+    } catch (error: any) {
       res.status(500).json({
         message: 'Ocorreu algum erro no lado do servidor.',
         error: error.message

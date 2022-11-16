@@ -12,15 +12,15 @@ export class Especialidade extends AppBaseEntity {
   @Column({ type: 'text' })
   descricao: string;
 
-  @ManyToMany(() => Medico, medico => medico.especialidades)
+  @ManyToMany(() => Medico, medico => medico.especialidades, { cascade: true})
   @JoinTable({
     name: 'medico_especialidade',
     joinColumn: {
-      name: 'medico_id',
+      name: 'especialidade_id',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'especialidade_id',
+      name: 'medico_id',
       referencedColumnName: 'id',
     },
   })
