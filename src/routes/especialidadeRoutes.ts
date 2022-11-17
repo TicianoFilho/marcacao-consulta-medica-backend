@@ -5,6 +5,7 @@ const router = Router();
 
 router.get('/especialidades/:especialidadeId', new EspecialidadeController().findOne);
 router.put('/especialidades/:especialidadeId', new EspecialidadeController().update);
+router.delete('/especialidades/:especialidadeId', new EspecialidadeController().delete);
 router.get('/especialidades', new EspecialidadeController().findAll);
 router.post('/especialidades', new EspecialidadeController().create);
 
