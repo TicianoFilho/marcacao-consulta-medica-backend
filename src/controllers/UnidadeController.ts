@@ -55,4 +55,23 @@ export class UnidadeController {
     }
   }
 
+  public async update(req: Request, res: Response) {
+    const { nome, endereco, telefone, email, cnpj } = req.body;
+    const { unidadeId } = req.params;
+
+    try {
+      await unidadeRepository.update(
+        Number(unidadeId),
+        { nome, endereco, telefone, email, cnpj }
+      );
+      return res.status(204).send();
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });
+    }
+  }
+
 }
