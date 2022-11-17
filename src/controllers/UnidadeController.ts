@@ -17,6 +17,12 @@ export class UnidadeController {
         id: Number(unidadeId)
       });
 
+      if (!unidade) {
+        return res.status(404).json({
+          message: `Unidade de código ${ unidadeId } não existe.`
+        });
+      }
+
       return res.status(200).json(unidade); 
 
     } catch (error: any) {
@@ -71,6 +77,31 @@ export class UnidadeController {
         message: 'Ocorreu algum erro no lado do servidor.',
         error: error.message
       });
+    }
+  }
+
+  public async delete(req: Request, res: Response) {
+    const { unidadeId } = req.params;
+
+    try {
+      const unidade = await unidadeRepository.findOneBy({ 
+        id: Number(unidadeId)
+      });
+
+      if (!unidade) {
+        return res.status(404).json({ 
+          message: `A unidade de código ${ unidadeId } não existe.` 
+        });
+      }
+
+      await unidadeRepository.remove(unidade);
+      return res.status(204).send();
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });  
     }
   }
 
