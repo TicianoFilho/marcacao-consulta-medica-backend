@@ -17,8 +17,9 @@ export class MedicoController {
     const { medicoId } = req.params;
 
     try {
-      const medico = await medicoRepository.findOneBy({
-        id: Number(medicoId)
+      const medico = await medicoRepository.findOne({
+        where: { id: Number(medicoId) },
+        relations: ['especialidades']
       });
 
       return res.status(200).json(medico);
@@ -88,7 +89,7 @@ export class MedicoController {
         Number(medicoId),
         {
           nome, cpf, endereco, telefone, email, crm, // TODO implement update to especialidades. Given error: "Cannot query across many-to-many for property especialidades".
-        }
+        },
       );
 
       return res.status(204).send();
