@@ -9,4 +9,26 @@ export class PlanoSaudeController {
     return res.status(200).json(planoSaude);
   }
 
+  public async findOne(req: Request, res: Response) {
+    const { planoSaudeId } = req.params;
+    
+    try {    
+      const planoSaude = await planoSaudeRepository.findOneBy({ 
+      });
+
+      if (!planoSaude) {
+        return res.status(404).json({
+          message: `Plano de Saúde de código ${ planoSaudeId } não existe.`
+        });
+      }
+
+      return res.status(200).json(planoSaude); 
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });     
+    }
+  }
 }

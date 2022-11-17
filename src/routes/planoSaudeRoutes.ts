@@ -3,6 +3,7 @@ import { PlanoSaudeController } from '../controllers/PlanoSaudeController';
 
 const router = Router();
 
-router.get('/plano-saude', new PlanoSaudeController().findAll);
+router.get('/planoSaude', new PlanoSaudeController().findAll);
+router.get('/planoSaude/:planoSaudeId', new PlanoSaudeController().findOne);
 
 export default router;
