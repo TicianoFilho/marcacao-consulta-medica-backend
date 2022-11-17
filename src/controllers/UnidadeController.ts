@@ -9,6 +9,24 @@ export class UnidadeController {
     return res.status(200).json(unidades);
   }
 
+  public async findOne(req: Request, res: Response) {
+    const { unidadeId } = req.params;
+    
+    try {    
+      const unidade = await unidadeRepository.findOneBy({ 
+        id: Number(unidadeId)
+      });
+
+      return res.status(200).json(unidade); 
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });     
+    }
+  }
+
   public async create(req: Request, res: Response) {
     const { nome, endereco, telefone, email, cnpj } = req.body;
 
