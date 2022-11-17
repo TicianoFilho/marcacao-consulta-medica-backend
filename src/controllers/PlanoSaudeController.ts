@@ -14,6 +14,7 @@ export class PlanoSaudeController {
     
     try {    
       const planoSaude = await planoSaudeRepository.findOneBy({ 
+        id: Number(planoSaudeId),
       });
 
       if (!planoSaude) {
