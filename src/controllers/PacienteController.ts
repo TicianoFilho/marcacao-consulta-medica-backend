@@ -73,6 +73,7 @@ export class PacienteController {
     }
   }
 
+  // TODO have to fix this method.s
   public async update(req: Request, res: Response) {
     const { nome, endereco, telefone, email, cpf, tipoPlanoId } = req.body;
     const { pacienteId } = req.params;
