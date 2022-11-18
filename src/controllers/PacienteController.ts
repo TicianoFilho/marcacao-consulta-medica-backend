@@ -89,8 +89,12 @@ export class PacienteController {
 
       const id = Number(pacienteId);
       const updatedPaciente = pacienteRepository.create(
-        { id, nome, endereco,telefone, email, cpf, planoSaude },
+        { id, nome, endereco,telefone, email, cpf },
       );
+
+      if (planoSaude) {
+        updatedPaciente.planoSaude = planoSaude;
+      }
 
       await pacienteRepository.save(updatedPaciente);     
       return res.status(204).send();
