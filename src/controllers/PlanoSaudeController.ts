@@ -60,4 +60,32 @@ export class PlanoSaudeController {
       });
     }
   }
+
+  public async update(req: Request, res: Response) {
+    const { descricao } = req.body;
+    const { planoSaudeId } = req.params;
+
+    try {
+      const planoSaude = await planoSaudeRepository.findOneBy({ 
+        id: Number(planoSaudeId) 
+      });
+      
+      if (!planoSaude) {
+        return res.status(404).json({ 
+          message: `O tipo de Plano de Saúde de código ${ planoSaudeId } não existe.` 
+        });
+      }
+
+      planoSaude.descricao = descricao;
+
+      await planoSaudeRepository.save(planoSaude);
+      return res.status(204).send();
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });
+    }
+  }
 }
