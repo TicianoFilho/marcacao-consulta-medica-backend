@@ -73,22 +73,32 @@ export class PacienteController {
     }
   }
 
-  // public async update(req: Request, res: Response) {
-  //   const { nome, endereco, telefone, email, cpf, planoSaudeId } = req.body;
-  //   const { pacienteId } = req.params;
+  public async update(req: Request, res: Response) {
+    const { nome, endereco, telefone, email, cpf, tipoPlanoId } = req.body;
+    const { pacienteId } = req.params;
 
-  //   try {
-  //     await unidadeRepository.update(
-  //       Number(unidadeId),
-  //       { nome, endereco, telefone, email, cpf }
-  //     );
-  //     return res.status(204).send();
+    try {
 
-  //   } catch (error: any) {
-  //     res.status(500).json({
-  //       message: 'Ocorreu algum erro no lado do servidor.',
-  //       error: error.message
-  //     });
-  //   }
-  // }
+      const planoSaude = await planoSaudeRepository.findOneBy({ id: Number(tipoPlanoId) });
+      if (!planoSaude) {
+        return res.status(404).json({ 
+          message: `Tipo de Plano de saúde de código ${ tipoPlanoId } não existe.` 
+        });
+      }
+
+      const id = Number(pacienteId);
+      const updatedPaciente = pacienteRepository.create(
+        { id, nome, endereco,telefone, email, cpf, planoSaude },
+      );
+
+      await pacienteRepository.save(updatedPaciente);     
+      return res.status(204).send();
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });
+    }
+  }
 }
