@@ -1,7 +1,10 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable indent */
+/* eslint-disable quotes */
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class default1668633546153 implements MigrationInterface {
-    name = 'default1668633546153'
+    name = 'default1668633546153';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "medico_especialidade" ("especialidade_id" integer NOT NULL, "medico_id" integer NOT NULL, CONSTRAINT "PK_e4eb7a1d596c0e400365f3deeba" PRIMARY KEY ("especialidade_id", "medico_id"))`);
