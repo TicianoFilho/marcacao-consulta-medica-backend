@@ -35,8 +35,7 @@ export class PacienteController {
   }
 
   public async create(req: Request, res: Response) {
-    const { nome, endereco, telefone, email, cpf } = req.body;
-    const { tipoPlanoId } = req.params;
+    const { nome, endereco, telefone, email, cpf, tipoPlanoId } = req.body;
 
     try {
 
@@ -70,4 +69,23 @@ export class PacienteController {
       });
     }
   }
+
+  // public async update(req: Request, res: Response) {
+  //   const { nome, endereco, telefone, email, cpf, planoSaudeId } = req.body;
+  //   const { pacienteId } = req.params;
+
+  //   try {
+  //     await unidadeRepository.update(
+  //       Number(unidadeId),
+  //       { nome, endereco, telefone, email, cpf }
+  //     );
+  //     return res.status(204).send();
+
+  //   } catch (error: any) {
+  //     res.status(500).json({
+  //       message: 'Ocorreu algum erro no lado do servidor.',
+  //       error: error.message
+  //     });
+  //   }
+  // }
 }
