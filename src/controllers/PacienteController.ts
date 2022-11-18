@@ -101,4 +101,29 @@ export class PacienteController {
       });
     }
   }
+
+  public async delete(req: Request, res: Response) {
+    const { pacienteId } = req.params;
+
+    try {
+      const paciente = await pacienteRepository.findOneBy({ 
+        id: Number(pacienteId)
+      });
+
+      if (!paciente) {
+        return res.status(404).json({ 
+          message: `Paciente de código ${ pacienteId } não existe.` 
+        });
+      }
+
+      await pacienteRepository.remove(paciente);
+      return res.status(204).send();
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });  
+    }
+  }
 }
