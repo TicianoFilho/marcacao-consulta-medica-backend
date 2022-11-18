@@ -6,7 +6,9 @@ import { planoSaudeRepository } from '../repositories/planoSaudeRepository';
 export class PacienteController {
 
   public async findAll(req: Request, res: Response) {
-    const pacientes: Paciente[] = await pacienteRepository.find();
+    const pacientes: Paciente[] = await pacienteRepository.find({
+      relations: ['planoSaude'],
+    });
     return res.status(200).json(pacientes);
   }
 
@@ -14,8 +16,9 @@ export class PacienteController {
     const { pacienteId } = req.params;
     
     try {    
-      const paciente = await pacienteRepository.findOneBy({ 
-        id: Number(pacienteId)
+      const paciente = await pacienteRepository.findOne({ 
+        where: { id: Number(pacienteId) },
+        relations: ['planoSaude'],
       });
 
       if (!paciente) {
