@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Paciente } from '../entities/Paciente';
 import { pacienteRepository } from '../repositories/pacienteRepository';
+import { planoSaudeRepository } from '../repositories/planoSaudeRepository';
 
 export class PacienteController {
 
@@ -30,6 +31,43 @@ export class PacienteController {
         message: 'Ocorreu algum erro no lado do servidor.',
         error: error.message
       });     
+    }
+  }
+
+  public async create(req: Request, res: Response) {
+    const { nome, endereco, telefone, email, cpf } = req.body;
+    const { tipoPlanoId } = req.params;
+
+    try {
+
+      const planoSaude = await planoSaudeRepository.findOneBy({ id: Number(tipoPlanoId) });
+      if (!planoSaude) {
+        return res.status(404).json({
+          message: `Tipo de Plano de código ${ tipoPlanoId } não existe.`
+        });
+      }
+
+      if (!nome || !endereco || !cpf || !telefone) {
+        return res.status(404).json({ 
+          message: 'Os campos: nome, endereco, telefone e cpf são obrigatórios.' 
+        });
+      }
+
+      const newPaciente = pacienteRepository.create({ nome, endereco, telefone, email, cpf, planoSaude });
+      await pacienteRepository.save(newPaciente);
+
+      res.status(201).json({
+        message: 'Novo paciente registrado com sucesso!',
+        obs: 'O paciente inicialmente encontra-se INATIVO.',
+        newObject: newPaciente
+      });
+
+    } catch (error: any) {
+
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });
     }
   }
 }

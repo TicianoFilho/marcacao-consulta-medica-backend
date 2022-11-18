@@ -11,7 +11,7 @@ export class Paciente extends PessoaFisica {
     super();
   }
 
-  @Column()
+  @Column({ default: false })
   ativo: boolean;
 
   @ManyToOne(() => PlanoSaude, planoSaude => planoSaude.pacientes)
