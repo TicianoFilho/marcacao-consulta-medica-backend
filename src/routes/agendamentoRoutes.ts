@@ -3,6 +3,6 @@ import { AgendamentoController } from '../controllers/AgendamentoController';
 
 const router = Router();
 
-//router.post('/especialidades', new AgendamentoController());
+router.get('/agendamentos', new AgendamentoController().findAll);
 
 export default router;
