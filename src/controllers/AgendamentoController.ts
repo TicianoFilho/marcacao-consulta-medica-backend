@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Agendamento } from '../entities/Agendamento';
 import { agendamentoRepository } from '../repositories/agendamentoRepository';
+import { especialidadeRepository } from '../repositories/especialidadeRepository';
 import { medicoRepository } from '../repositories/medicoRepository';
 import { pacienteRepository } from '../repositories/pacienteRepository';
 import { unidadeRepository } from '../repositories/UnidadeRepository';
@@ -10,9 +11,10 @@ export class AgendamentoController {
   public async findAll(req: Request, res: Response) {
     const agendamentos: Agendamento[] = await agendamentoRepository.find({
       relations: [
+        'especialidade',
         'medico', 
+        'unidade',
         'paciente', 
-        'unidade'
       ],
     });
     return res.status(200).json(agendamentos);
@@ -25,9 +27,10 @@ export class AgendamentoController {
       const agendamento = await agendamentoRepository.findOne({ 
         where: { id: Number(agendamentoId) },
         relations: [
+          'especialidade',
           'medico', 
+          'unidade',
           'paciente',
-          'unidade'
         ],
       });
 
@@ -65,7 +68,7 @@ export class AgendamentoController {
   }
 
   public async create(req: Request, res: Response) {
-    const { hora, data, unidadeId, medicoId, pacienteId } = req.body;
+    const { hora, data, unidadeId, medicoId, pacienteId, especialidadeId } = req.body;
 
     try {
 
@@ -89,14 +92,21 @@ export class AgendamentoController {
           message: `Paciente de código ${ pacienteId } não existe.`
         });
       }
-
-      if (!hora || !data || !unidadeId || !medicoId || !pacienteId) {
-        return res.status(404).json({ 
-          message: 'Os campos: hora, data, unidadeId, medicoId, pacienteId são obrigatórios.' 
+ 
+      const especialidade = await especialidadeRepository.findOneBy({ id: Number(especialidadeId) });
+      if (!especialidade) {
+        return res.status(404).json({
+          message: `Especialidade de código ${ especialidadeId } não existe.`
         });
       }
 
-      const newAgendamento = agendamentoRepository.create({ hora, data, unidade, medico, paciente });
+      if (!hora || !data || !unidadeId || !medicoId || !pacienteId || !especialidadeId) {
+        return res.status(404).json({ 
+          message: 'Os campos: hora, data, unidadeId, medicoId, pacienteId, especialidadeId são obrigatórios.' 
+        });
+      }
+
+      const newAgendamento = agendamentoRepository.create({ hora, data, unidade, medico, paciente, especialidade });
       await agendamentoRepository.save(newAgendamento);
 
       res.status(201).json({
