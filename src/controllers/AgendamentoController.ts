@@ -122,4 +122,29 @@ export class AgendamentoController {
       });
     }
   }
+
+  public async delete(req: Request, res: Response) {
+    const { agendamentoId } = req.params;
+
+    try {
+      const agendamento = await agendamentoRepository.findOneBy({ 
+        id: Number(agendamentoId)
+      });
+
+      if (!agendamento) {
+        return res.status(404).json({ 
+          message: `Agendamento de código ${ agendamentoId } não existe.` 
+        });
+      }
+
+      await agendamentoRepository.remove(agendamento);
+      return res.status(204).send();
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });  
+    }
+  }
 }
