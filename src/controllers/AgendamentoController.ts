@@ -64,5 +64,52 @@ export class AgendamentoController {
     }
   }
 
- 
+  public async create(req: Request, res: Response) {
+    const { hora, data, unidadeId, medicoId, pacienteId } = req.body;
+
+    try {
+
+      const unidade = await unidadeRepository.findOneBy({ id: Number(unidadeId) });
+      if (!unidade) {
+        return res.status(404).json({
+          message: `Unidade de código ${ unidadeId } não existe.`
+        });
+      }
+
+      const medico = await medicoRepository.findOneBy({ id: Number(medicoId) });
+      if (!medico) {
+        return res.status(404).json({
+          message: `Médico de código ${ medicoId } não existe.`
+        });
+      }
+
+      const paciente = await pacienteRepository.findOneBy({ id: Number(pacienteId) });
+      if (!paciente) {
+        return res.status(404).json({
+          message: `Paciente de código ${ pacienteId } não existe.`
+        });
+      }
+
+      if (!hora || !data || !unidadeId || !medicoId || !pacienteId) {
+        return res.status(404).json({ 
+          message: 'Os campos: hora, data, unidadeId, medicoId, pacienteId são obrigatórios.' 
+        });
+      }
+
+      const newAgendamento = agendamentoRepository.create({ hora, data, unidade, medico, paciente });
+      await agendamentoRepository.save(newAgendamento);
+
+      res.status(201).json({
+        message: 'Novo agendamento criado com sucesso!',
+        newObject: newAgendamento
+      });
+
+    } catch (error: any) {
+
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });
+    }
+  }
 }
