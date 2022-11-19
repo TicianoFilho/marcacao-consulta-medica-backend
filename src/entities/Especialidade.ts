@@ -1,5 +1,6 @@
 /* eslint-disable indent */
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn, JoinTable } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn, JoinTable, OneToMany } from 'typeorm';
+import { Agendamento } from './Agendamento';
 import { AppBaseEntity } from './AppBaseEntity';
 import { Medico } from './Medico';
 
@@ -11,6 +12,9 @@ export class Especialidade extends AppBaseEntity {
 
   @Column({ type: 'text' })
   descricao: string;
+
+  @OneToMany(() => Agendamento, agendamento => agendamento.especialidade)
+  agendamentos: Agendamento[];
 
   @ManyToMany(() => Medico, medico => medico.especialidades, { cascade: true})
   @JoinTable({

@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AppBaseEntity } from './AppBaseEntity';
+import { Especialidade } from './Especialidade';
 import { Medico } from './Medico';
 import { Paciente } from './Paciente';
 import { Unidade } from './Unidade';
@@ -16,6 +17,10 @@ export class Agendamento extends AppBaseEntity {
 
   @Column({ type: 'date' })
   data: Date;
+
+  @ManyToOne(() => Especialidade, especialidade => especialidade.agendamentos)
+  @JoinColumn({ name: 'especialidade_id' })
+  especialidade: Especialidade;
 
   @ManyToOne(() => Unidade, unidade => unidade.agendamentos)
   @JoinColumn({ name: 'unidade_id' })
