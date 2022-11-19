@@ -75,26 +75,26 @@ export class PacienteController {
 
   // TODO have to fix this method.s
   public async update(req: Request, res: Response) {
-    const { nome, endereco, telefone, email, cpf, tipoPlanoId } = req.body;
+    const { nome, endereco, telefone, email, cpf, ativo } = req.body;
     const { pacienteId } = req.params;
 
     try {
 
-      const planoSaude = await planoSaudeRepository.findOneBy({ id: Number(tipoPlanoId) });
-      if (!planoSaude) {
-        return res.status(404).json({ 
-          message: `Tipo de Plano de saúde de código ${ tipoPlanoId } não existe.` 
-        });
-      }
+      // const planoSaude = await planoSaudeRepository.findOneBy({ id: Number(tipoPlanoId) });
+      // if (!planoSaude) {
+      //   return res.status(404).json({ 
+      //     message: `Tipo de Plano de saúde de código ${ tipoPlanoId } não existe.` 
+      //   });
+      // }
 
       const id = Number(pacienteId);
       const updatedPaciente = pacienteRepository.create(
-        { id, nome, endereco,telefone, email, cpf },
+        { id, nome, endereco,telefone, email, cpf, ativo },
       );
 
-      if (planoSaude) {
-        updatedPaciente.planoSaude = planoSaude;
-      }
+      // if (planoSaude) {
+      //   updatedPaciente.planoSaude = planoSaude;
+      // }
 
       await pacienteRepository.save(updatedPaciente);     
       return res.status(204).send();
@@ -131,4 +131,5 @@ export class PacienteController {
       });  
     }
   }
+
 }
