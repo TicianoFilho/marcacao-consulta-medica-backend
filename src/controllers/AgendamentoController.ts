@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { Agendamento } from '../entities/Agendamento';
-import { Paciente } from '../entities/Paciente';
 import { agendamentoRepository } from '../repositories/agendamentoRepository';
 import { especialidadeRepository } from '../repositories/especialidadeRepository';
 import { medicoRepository } from '../repositories/medicoRepository';
