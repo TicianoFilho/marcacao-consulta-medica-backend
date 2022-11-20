@@ -82,6 +82,38 @@ export class AgendamentoController {
     }
   }
 
+  public async findAllByMedico(req: Request, res: Response) {
+    const { medicoId } = req.params;
+    
+    try {    
+      const agendamentos: Agendamento[] = await agendamentoRepository.find({
+        relations: {
+          especialidade: true,
+          unidade: true,
+          paciente: true,
+          medico: true,
+        },
+        where: {
+          medico: { id: Number(medicoId) }
+        }
+      });
+
+      if (agendamentos.length <= 0) {
+        return res.status(404).json({
+          message: `Nenhum agendamento para o médico de código ${ medicoId }.`
+        });
+      }
+
+      res.status(200).json(agendamentos);
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });     
+    }
+  }
+
   public async create(req: Request, res: Response) {
     const { hora, data, unidadeId, medicoId, pacienteId, especialidadeId } = req.body;
 
