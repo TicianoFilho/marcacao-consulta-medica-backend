@@ -60,13 +60,14 @@ export class AgendamentoController {
           especialidade: true,
           medico: true,
           unidade: true,
+          paciente: true,
         },
         where: {
           paciente: { id: Number(pacienteId) }
         }
       });
 
-      if (!agendamentos) {
+      if (agendamentos.length <= 0) {
         return res.status(404).json({
           message: `Nenhum agendamento para o paciente de código ${ pacienteId }.`
         });
