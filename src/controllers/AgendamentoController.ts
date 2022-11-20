@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Agendamento } from '../entities/Agendamento';
+import { Paciente } from '../entities/Paciente';
 import { agendamentoRepository } from '../repositories/agendamentoRepository';
 import { especialidadeRepository } from '../repositories/especialidadeRepository';
 import { medicoRepository } from '../repositories/medicoRepository';
@@ -50,14 +51,28 @@ export class AgendamentoController {
     }
   }
 
-  public async findAllTest(req: Request, res: Response) {
+  public async findAllByPaciente(req: Request, res: Response) {
+    const { pacienteId } = req.params;
     
     try {    
-      const agendamento = await agendamentoRepository.createQueryBuilder('agendamento')
-        .leftJoinAndSelect('agendamento.medico', 'medico.especialidade')
-        .getMany();
+      const agendamentos: Agendamento[] = await agendamentoRepository.find({
+        relations: {
+          especialidade: true,
+          medico: true,
+          unidade: true,
+        },
+        where: {
+          paciente: { id: Number(pacienteId) }
+        }
+      });
 
-      return res.status(200).json(agendamento); 
+      if (!agendamentos) {
+        return res.status(404).json({
+          message: `Nenhum agendamento para o paciente de código ${ pacienteId }.`
+        });
+      }
+
+      res.status(200).json(agendamentos);
 
     } catch (error: any) {
       res.status(500).json({
