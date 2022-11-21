@@ -20,4 +20,3 @@ const routes = (app: Application) => {
 };
 
 export default routes;
- 
