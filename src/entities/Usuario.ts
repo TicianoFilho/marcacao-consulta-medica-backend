@@ -12,7 +12,7 @@ export class Usuario extends AppBaseEntity {
   nome: string;
 
   @Column()
-  usuario: string;
+  email: string;
 
   @Column()
   senha: string;
