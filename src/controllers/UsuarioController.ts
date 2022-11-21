@@ -25,9 +25,12 @@ export class UsuarioController {
       });
 
       await usuarioRepository.save(newUsuario);
+      
+      const { senha: _, ...newUser } = newUsuario; // doesn't display the password for security reasons.
+
       res.status(201).json({
         message: 'Usuário criado com sucesso.',
-        newUser: newUsuario,
+        newUser: newUser,
       });
 
     } catch (error: any) {
