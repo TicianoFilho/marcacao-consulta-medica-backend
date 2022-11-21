@@ -5,6 +5,7 @@ import unidadeRoutes from './unidadeRoutes';
 import planoSaudeRoutes from './planoSaudeRoutes';
 import pacienteRoutes from './pacienteRoutes';
 import agendamentoRoutes from './agendamentoRoutes';
+import usuarioRoutes from './usuarioRoutes';
 
 const routes = (app: Application) => {
   app.use(
@@ -14,7 +15,9 @@ const routes = (app: Application) => {
     planoSaudeRoutes,
     pacienteRoutes,
     agendamentoRoutes,
+    usuarioRoutes,
   );
 };
 
 export default routes;
+ 
