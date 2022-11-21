@@ -6,6 +6,7 @@ import planoSaudeRoutes from './planoSaudeRoutes';
 import pacienteRoutes from './pacienteRoutes';
 import agendamentoRoutes from './agendamentoRoutes';
 import usuarioRoutes from './usuarioRoutes';
+import loginRoutes from './loginRoutes';
 
 const routes = (app: Application) => {
   app.use(
@@ -16,6 +17,7 @@ const routes = (app: Application) => {
     pacienteRoutes,
     agendamentoRoutes,
     usuarioRoutes,
+    loginRoutes,
   );
 };
 
