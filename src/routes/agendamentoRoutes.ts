@@ -6,6 +6,7 @@ const router = Router();
 
 router.get('/agendamentos/pacientes/:pacienteId', authMiddleware, new AgendamentoController().findAllByPaciente);
 router.get('/agendamentos/medicos/:medicoId', authMiddleware, new AgendamentoController().findAllByMedico);
+router.get('/agendamentos/unidades/:unidadeId', authMiddleware, new AgendamentoController().findByUnidade);
 router.get('/agendamentos/:agendamentoId', authMiddleware, new AgendamentoController().findOne);
 router.delete('/agendamentos/:agendamentoId', authMiddleware, new AgendamentoController().delete);
 router.post('/agendamentos', authMiddleware, new AgendamentoController().create);

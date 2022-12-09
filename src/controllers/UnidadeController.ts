@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Unidade } from '../entities/Unidade';
+import { agendamentoRepository } from '../repositories/agendamentoRepository';
 import { unidadeRepository } from '../repositories/UnidadeRepository';
 
 export class UnidadeController {

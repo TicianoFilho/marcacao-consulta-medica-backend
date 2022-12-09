@@ -195,4 +195,35 @@ export class AgendamentoController {
     }
   }
 
+  public async findByUnidade(req: Request, res: Response) {
+    const { unidadeId } = req.params;
+  
+    try {
+      const agendamentos: Agendamento[] = await agendamentoRepository.find({
+        relations: {
+          especialidade: true,
+          unidade: true,
+          paciente: true,
+          medico: true,
+        },
+        where: {unidade: { id: Number(unidadeId) }}
+      });
+      
+      if (agendamentos.length <= 0) {
+        return res.status(404).json({
+          message: `Nenhum agendamento para a unidade de código ${ unidadeId }.`
+        });
+      }
+
+      res.status(200).json(agendamentos);
+
+    } catch (error: any) {
+      res.status(500).json({
+        message: 'Ocorreu algum erro no lado do servidor.',
+        error: error.message
+      });
+    }
+
+  }
+
 }

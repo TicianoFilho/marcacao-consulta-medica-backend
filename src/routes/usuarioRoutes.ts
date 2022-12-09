@@ -9,3 +9,11 @@ const router = Router();
 router.post('/usuarios', authMiddleware, new UsuarioController().create);
 
 export default router;
+
+
+// Usuário teste no banco
+// {
+//   "email": "teste@mv.com.br",
+//   "senha": "abc123",
+//   "nome": "teste"
+// }
